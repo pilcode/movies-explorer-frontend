@@ -1,0 +1,17 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+@import url(./components/App/App.css);
+@import url(./components/Header/Header.css);
+@import url(./components/Navigation/Navigation.css);
+@import url(./components/Logo/logo.css);
+
+.root {
+  background-color: #fff;
+  color: #000;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}

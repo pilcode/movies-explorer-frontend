@@ -1,0 +1,43 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  transition: all 250ms ease-out;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 129%;
+}
+
+/*Для экранов с расширением  320-767*/
+@media screen and (max-width: 1020px) {
+  .navigation {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 0;
+    flex-direction: column;
+    /* border-bottom: 1px solid rgba(84,84,84, 0.7); */
+  }
+}
+
+.navigation__list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+
+.navigation__link {
+  color: #000;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navigation__link_type_oval {
+border-radius: 50px;
+background-color: #F4F4F4;
+padding: 8px 20px;
+margin: 0 0 0 50px;
+}

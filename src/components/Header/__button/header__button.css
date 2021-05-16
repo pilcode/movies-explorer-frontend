@@ -1,0 +1,21 @@
+.header__button-burger {
+  padding: 0;
+  background: url('../../../images/Burger.svg');
+  transition: opacity 0.25s;
+  border: none;
+  width: 44px;
+  height: 44px;
+  display: none;
+}
+
+.header__button-.header__button-burger {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/*Для экранов с расширением  320-767*/
+@media screen and (max-width: 1024px) {
+  .header__button-burger {
+    display: flex;
+  }
+}

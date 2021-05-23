@@ -1,10 +1,11 @@
 import './App.css';
 import React from 'react';
+// import { Switch } from 'react-router-dom';
 // import { Route, Switch } from 'react-router-dom';
 // import {CurrentUserContext} from '../contexts/CurrentUserContext';
 // import ProtectedRoute from './ProtectedRoute';
 import Header from '../Header/Header';
-
+import Main from '../Main/Main'
 
 
 function App() {
@@ -30,23 +31,26 @@ function App() {
           onClose={closeBurgerMenu}
           onBurgerMenu={handleBurgerMenu}
         />
+        <Main></Main>
         {/* <Switch>
           <ProtectedRoute
             exact path="/"
-            // component={Main}
+            component={Main}
           />
-          <Route path="/signin">
-            <Login
-              onLogin={hsndleLogin}
-            />
-          </Route>
-          <Route path="/signup">
-            <Register
-              onRegister={handleRegister}
-            />
-          </Route>
-        </Switch>  */}
+        </Switch> */}
       </div>
+
+          // <Route path="/signin">
+          //   <Login
+          //     onLogin={hsndleLogin}
+          //   />
+          // </Route>
+          // <Route path="/signup">
+          //   <Register
+          //     onRegister={handleRegister}
+          //   />
+          // </Route>
+
       /* <EditProfilePopup></EditProfilePopup> */
 
     // </CurrentUserContext.Provider>
@@ -54,3 +58,5 @@ function App() {
 }
 
 export default App;
+
+

@@ -1,13 +1,15 @@
 import './App.css';
 import React from 'react';
 // import { Switch } from 'react-router-dom';
-// import { Route, Switch } from 'react-router-dom';
-// import {CurrentUserContext} from '../contexts/CurrentUserContext';
-// import ProtectedRoute from './ProtectedRoute';
+import { Route, Switch } from 'react-router-dom';
+import {CurrentUserContext} from '../../contexts/currentUserContext';
+// import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
-
+import Login from '../Login/Login';
+import Register from '../Register/Register';
+import NotFound from '../NotFound/NotFound';
 
 
 function App() {
@@ -24,39 +26,57 @@ function App() {
     setIsBurgerMenuOpen(false);
   }
 
+  const hederElement = (
+    <Header
+      isOpen={isBurgerMenuOpen}
+      onClose={closeBurgerMenu}
+      onBurgerMenu={handleBurgerMenu}
+    />
+  )
+
+  const footerElement = (
+    <Footer />
+  )
+
   return (
     // <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider>
+
       <div className="app">
-        {/* <p>Привет, Мир!</p> */}
-        <Header
-          isOpen={isBurgerMenuOpen}
-          onClose={closeBurgerMenu}
-          onBurgerMenu={handleBurgerMenu}
-        />
-        <Main></Main>
-        {/* <Switch>
-          <ProtectedRoute
+
+        <Switch>
+          {/* <ProtectedRoute
             exact path="/"
             component={Main}
-          />
-        </Switch> */}
-        <Footer />
+          /> */}
+          <Route path="/" exact>
+            {hederElement}
+            <Main></Main>
+            {footerElement}
+          </Route>
+
+
+          <Route path="/signin">
+            <Login />
+          </Route>
+
+          <Route path="/signup">
+            <Register />
+          </Route>
+
+          <Route path="*">
+            <NotFound />
+          </Route>
+
+
+        </Switch>
+        {/* <Footer /> */}
       </div>
 
-          // <Route path="/signin">
-          //   <Login
-          //     onLogin={hsndleLogin}
-          //   />
-          // </Route>
-          // <Route path="/signup">
-          //   <Register
-          //     onRegister={handleRegister}
-          //   />
-          // </Route>
 
-      /* <EditProfilePopup></EditProfilePopup> */
+      {/* <EditProfilePopup></EditProfilePopup> */}
 
-    // </CurrentUserContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

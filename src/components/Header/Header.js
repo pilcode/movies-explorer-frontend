@@ -40,7 +40,12 @@ function Header({isOpen, onClose, onBurgerMenu}) {
     );
   }
 
+  // if(pathname === '/signin' || '/signup') {
+  //   return null;
+  // }
+
   return (
+
     <header className="header">
       <div className="header__wrapper">
         <img className="logo" src={logoPath} alt="Логотип проекта" />

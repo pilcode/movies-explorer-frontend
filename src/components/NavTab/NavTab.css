@@ -47,6 +47,12 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 1.33;
+  transition: opacity 0.25s;
+}
+
+.nav__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1024px) {

@@ -1,0 +1,155 @@
+.project {
+  padding: 110px 70px;
+}
+
+.project__title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 1.22;
+  padding: 0 0 23px 0;
+  margin: 0;
+  border-bottom: 1px solid #000;
+}
+
+.project__about {
+  display: flex;
+  margin: 70px 0 110px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.project__diploma-wrapper {
+  margin-right: 40px;
+}
+
+.project__diploma-wrapper:last-of-type {
+  margin-right: 0;
+}
+
+.project__diploma {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.2;
+  margin: 0 0 26px 0;
+}
+
+.project__diploma-about {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.43;
+  margin: 0;
+}
+
+.project__timing {
+  display: flex;
+  align-items: center;
+}
+
+.project__timing-wrapper {
+  min-width: 20%;
+}
+.project__timing-wrapper_size_big {
+  min-width: 80%;
+}
+
+.project__time {
+  background-color: #3456F3;
+  color: #fff;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+  padding: 9px 0;
+  margin: 0;
+}
+
+.project__time_color_grey {
+  background-color: #F2F2F2;
+  color: #000;
+  padding: 9px 0;
+}
+
+.project__time-about {
+  color: #A0A0A0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+  margin: 14px 0 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .project {
+    padding: 90px 50px;
+  }
+
+  .project__about {
+    margin-bottom: 93px;
+  }
+
+  .project__diploma-wrapper {
+    margin-right: 30px;
+  }
+
+  .project__diploma-about {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .project {
+    padding: 70px 18px;
+  }
+
+  .project__title {
+    font-size: 18px;
+    line-height: 1.2;
+    padding: 0 0 28px 0;
+  }
+
+  .project__about {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 60px 0;
+  }
+
+  .project__diploma-wrapper {
+    margin-right: 0;
+    margin-bottom: 56px;
+  }
+
+  .project__diploma {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+  }
+
+  .project__diploma-about {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .project__timing-wrapper {
+    min-width: 35%;
+  }
+  .project__timing-wrapper_size_big {
+    min-width: 65%;
+  }
+
+  .project__time {
+    font-size: 11px;
+    line-height: 1.12;
+    padding: 11px 0;
+  }
+
+  .project__time-about {
+    font-size: 11px;
+    line-height: 1.12;
+    margin: 10px 0 0 0;
+  }
+}

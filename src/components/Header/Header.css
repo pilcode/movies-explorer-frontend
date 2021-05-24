@@ -6,7 +6,7 @@
 	flex-direction: column-reverse;
 }
 
-/* @media screen and (max-width: 1020px) {
+/* @media screen and (max-width: 1024px) {
   .header {
     display: flex;
   }
@@ -52,8 +52,7 @@
   cursor: pointer;
 }
 
-/*Для экранов с расширением  320-767*/
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 1024px) {
   .header__checkbox-label {
     display: block;
   }

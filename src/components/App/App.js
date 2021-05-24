@@ -5,7 +5,9 @@ import React from 'react';
 // import {CurrentUserContext} from '../contexts/CurrentUserContext';
 // import ProtectedRoute from './ProtectedRoute';
 import Header from '../Header/Header';
-import Main from '../Main/Main'
+import Main from '../Main/Main';
+import Footer from '../Footer/Footer';
+
 
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
             component={Main}
           />
         </Switch> */}
+        <Footer />
       </div>
 
           // <Route path="/signin">

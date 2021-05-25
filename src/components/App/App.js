@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 // import { Switch } from 'react-router-dom';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/currentUserContext';
 // import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
@@ -19,6 +19,12 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const history = useHistory();
+  const { pathname }= useLocation();
+  React.useEffect(() => {
+    setIsBurgerMenuOpen(false);
+  }, [pathname])
+
+
 
 
   function handleLogin() {

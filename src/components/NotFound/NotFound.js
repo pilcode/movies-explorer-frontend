@@ -7,7 +7,7 @@ function NotFound() {
     <section className="error">
       <p className="error__num">404</p>
       <p className="error__title">Страница не найдена</p>
-      <Link className="error__link">Назад</Link>
+      <Link className="error__link" to="/">Назад</Link>
     </section>
   )
 

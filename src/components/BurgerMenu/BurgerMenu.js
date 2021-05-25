@@ -4,7 +4,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 function BurgerMenu({isOpen, onClose}) {
-  console.log('сработало в бургерменю')
   let openClass = '';
   if (isOpen) openClass = ' burger__opened';
 

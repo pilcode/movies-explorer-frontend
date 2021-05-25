@@ -57,6 +57,12 @@
   font-size: 13px;
   line-height: 1.2;
   text-align: start;
+  transition: opacity 0.25s;
+}
+
+.footer__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,14 +1,13 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import logoPath from '../../images/logo.svg';
 import './Login.css';
 
-import { Link } from "react-router-dom";
 
 
-function Login() {
+function Login({ onLogin }) {
   // const [email, setEmail] = React.useState('');
   // const [password, setPassword] = React.useState('');
-
 
   // function handleEmailChange(e) {
   //   setEmail(e.target.value);
@@ -18,18 +17,20 @@ function Login() {
   //   setPassword(e.target.value);
   // }
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //   // onLogin({email, password});
-  // }
+  function handleSubmit(e) {
+    e.preventDefault();
+    // onLogin({ email, password });
+    onLogin();
+
+  }
 
   return (
     <div className="authorization">
       <img className="authorization__logo" src={logoPath} alt="Логотип проекта" />
       <h3 className="authorization__title">Рады видеть!</h3>
-      {/* <form className="authorization__form" onSubmit={handleSubmit}> */}
-      <form className="authorization__form">
-        <label className="authorization__label">E-mail</label>
+      <form className="authorization__form" onSubmit={handleSubmit}>
+      {/* <form className="authorization__form"> */}
+        <label className="authorization__label" htmlFor="login-email">E-mail</label>
         <input
           className="authorization__input authorization__input_type_email"
           type="email"
@@ -37,13 +38,13 @@ function Login() {
           // value={email}
           id="login-email"
           // placeholder="Email"
-          minLength="2"
-          maxLength="30"
+          // minLength="2"
+          // maxLength="30"
           // onChange={handleEmailChange}
-          required
+          // required
         />
 
-        <label className="authorization__label">Пароль</label>
+        <label className="authorization__label" htmlFor="login-password">Пароль</label>
         <input
           className="authorization__input authorization__input_type_password"
           type="password"
@@ -51,14 +52,14 @@ function Login() {
           // value={password}
           id="login-password"
           // placeholder="Пароль"
-          minLength="2"
-          maxLength="20"
+          // minLength="2"
+          // maxLength="20"
           // onChange={handlePasswordChange}
-          required
+          // required
         />
 
         <button type="submit" className="authorization__button">Войти</button>
-        <p className="authorization__question">Ещё не зарегистрированы? <Link className="authorization__question-link" to="/">Регистрация</Link></p>
+        <p className="authorization__question">Ещё не зарегистрированы? <Link className="authorization__question-link" to="/signup">Регистрация</Link></p>
       </form>
 
     </div>

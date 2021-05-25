@@ -6,7 +6,7 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import './Header.css'
 // import './__button/header__button.css'
 
-function Header({isOpen, onClose, onBurgerMenu}) {
+function Header({ isOpen, onClose, onBurgerMenu, loggedIn }) {
   const {pathname }= useLocation();
   React.useEffect(() => {
 
@@ -14,7 +14,7 @@ function Header({isOpen, onClose, onBurgerMenu}) {
 
   let headerLink
 
-  if(pathname === '/') {
+  if(!loggedIn) {
     headerLink = (
       <>
         <nav className="navigation navigation__main">
@@ -31,7 +31,7 @@ function Header({isOpen, onClose, onBurgerMenu}) {
     );
   }
 
-  if(pathname === '/movies') {
+  if(loggedIn) {
     headerLink = (
       <>
         <Navigation />
@@ -40,15 +40,13 @@ function Header({isOpen, onClose, onBurgerMenu}) {
     );
   }
 
-  // if(pathname === '/signin' || '/signup') {
-  //   return null;
-  // }
-
   return (
 
     <header className="header">
       <div className="header__wrapper">
-        <img className="logo" src={logoPath} alt="Логотип проекта" />
+        <Link className="header__link" to="/">
+          <img className="logo" src={logoPath} alt="Логотип проекта" />
+        </Link>
         {headerLink}
       </div>
       <BurgerMenu

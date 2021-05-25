@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import myFoto from '../../images/my_foto.jpg';
 import './AboutMe.css';
 import Portfolio from '../Portfolio/Portfolio';
@@ -16,10 +15,10 @@ function AboutMe() {
           <p className='student__about'>Первую половину жизни жила и училась в Красноярском крае. Высшее образование по специальности "Экономист в ракотостроении". Люблю слушать музыку, хожу в походы, катаюсь на горных лыжах и сноуборде. Заканчиваю обучение на факультете Яндекс.Практикума, планирую пойти на курс "Дизайн интерфейсов".</p>
           <ul className='student__link-list'>
             <li className='student__link-item'>
-              <Link className='student__info-link'to='/'>Facebook</Link>
+              <a className='student__info-link' href="https://www.instagram.com/yellowpchela/" target="_blank" rel="noreferrer">Instagram</a>
             </li>
             <li className='student__link-item'>
-              <Link className='student__info-link' to='/'>Github</Link>
+              <a className='student__info-link' href="https://github.com/pilcode" target="_blank" rel="noreferrer">Github</a>
             </li>
           </ul>
         </div>

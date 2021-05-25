@@ -48,7 +48,7 @@ function Register() {
           // onChange={handleNameChange}
           // required
         />
-
+        <span className="register__input-error" id="register-name-error" />
 
         <label className="register__label" htmlFor="login-email">E-mail</label>
         <input
@@ -63,6 +63,8 @@ function Register() {
           // onChange={handleEmailChange}
           // required
         />
+        <span className="register__input-error" id="register-email-error" />
+
 
         <label className="register__label" htmlFor="login-password">Пароль</label>
         <input
@@ -77,6 +79,8 @@ function Register() {
           // onChange={handlePasswordChange}
           // required
         />
+        <span className="register__input-error" id="register-name-error" />
+
 
         <button type="submit" className="register__button">Зарегистрироваться</button>
         <p className="register__question">Уже зарегистрированы? <Link className="register__question-link" to="/signin">Войти</Link></p>

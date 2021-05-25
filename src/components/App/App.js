@@ -6,11 +6,13 @@ import {CurrentUserContext} from '../../contexts/currentUserContext';
 // import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
+
 
 
 
@@ -23,8 +25,6 @@ function App() {
   React.useEffect(() => {
     setIsBurgerMenuOpen(false);
   }, [pathname])
-
-
 
 
   function handleLogin() {
@@ -78,9 +78,18 @@ function App() {
           /> */}
           <Route exact path="/">
             {hederElement}
-            <Main></Main>
+            <Main />
             {footerElement}
           </Route>
+
+          <Route path="/movies">
+            {hederElement}
+            <Movies
+              onLogin={handleLogin}
+            />
+            {footerElement}
+          </Route>
+
 
           <Route path="/profile">
             {hederElement}

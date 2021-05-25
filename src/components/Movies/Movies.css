@@ -1,0 +1,11 @@
+.movies {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 1.38;
+  background-color: teal;
+  height: 500px;
+  /* margin: auto 0 0; */
+  /* margin: 0 auto ; */
+  padding: 0 70px 0;
+}

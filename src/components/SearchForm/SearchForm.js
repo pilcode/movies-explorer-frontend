@@ -3,7 +3,7 @@ import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm() {
+function SearchForm({onSearch}) {
   return (
     <section className="search-form">
       <div className="search-form__wrapper">
@@ -13,7 +13,7 @@ function SearchForm() {
           name="searchForm"
           placeholder="Фильм"
         />
-        <button className="search-form__button" type="submit">Поиск</button>
+        <button className="search-form__button" type="button" onClick={onSearch}>Поиск</button>
       </div>
       <FilterCheckbox />
     </section>

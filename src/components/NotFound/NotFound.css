@@ -41,21 +41,10 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 1024px) {
-  .error {
-    padding: 0 0 222px;
-
-  }
-
-}
-
-
 @media screen and (max-width: 767px) {
   .error {
     padding: 0 0 30px;
-
   }
-
 
   .error__num {
     font-size: 80px;

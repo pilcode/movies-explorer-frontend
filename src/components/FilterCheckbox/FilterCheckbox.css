@@ -54,3 +54,9 @@
   left: calc(100% - 5px);
 	transform: translateX(-100%);
 }
+
+@media screen and (max-width: 767px) {
+  .filter__short-films {
+    font-size: 11px;
+  }
+}

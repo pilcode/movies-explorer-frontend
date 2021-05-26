@@ -27,6 +27,7 @@
 .authorization__form {
   max-width: 396px;
   margin: 0 auto;
+  position: relative;
 }
 
 .authorization__label {
@@ -55,9 +56,32 @@
   box-sizing: border-box;
 }
 
+.register__input_invalid {
+  /* border: 1px solid #FF0000; */
+  color: #FF0000;
+}
+
 .authorization__input:last-of-type {
   margin: 10px 0 0;
 }
+
+.authorization__input-error {
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #FF0000;
+  height: 33px;
+  position: absolute;
+  left: 0px;
+  right: 36px;
+  top: 170px;
+
+}
+
+.authorization__input-error:first-of-type {
+  top: 75px;
+}
+
 
 .authorization__button {
   width: 100%;
@@ -130,6 +154,14 @@
     align-items: stretch;
     flex-grow: 1;
     width: 100%;
+  }
+
+  .authorization__input-error {
+    top: 157px;
+  }
+
+  .authorization__input-error:first-of-type {
+    top: 69px;
   }
 
   .authorization__button {

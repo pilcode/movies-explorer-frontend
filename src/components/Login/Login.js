@@ -29,7 +29,6 @@ function Login({ onLogin }) {
       <img className="authorization__logo" src={logoPath} alt="Логотип проекта" />
       <h3 className="authorization__title">Рады видеть!</h3>
       <form className="authorization__form" onSubmit={handleSubmit}>
-      {/* <form className="authorization__form"> */}
         <label className="authorization__label" htmlFor="login-email">E-mail</label>
         <input
           className="authorization__input authorization__input_type_email"
@@ -38,11 +37,13 @@ function Login({ onLogin }) {
           // value={email}
           id="login-email"
           // placeholder="Email"
-          // minLength="2"
+          minLength="2"
           // maxLength="30"
           // onChange={handleEmailChange}
           // required
         />
+        <span className="authorization__input-error" id="login-email-error">Что-то пошло не так</span>
+
 
         <label className="authorization__label" htmlFor="login-password">Пароль</label>
         <input
@@ -52,11 +53,12 @@ function Login({ onLogin }) {
           // value={password}
           id="login-password"
           // placeholder="Пароль"
-          // minLength="2"
+          minLength="2"
           // maxLength="20"
           // onChange={handlePasswordChange}
           // required
         />
+        <span className="authorization__input-error" id="login-password-error">Что-то пошло не так</span>
 
         <button type="submit" className="authorization__button">Войти</button>
         <p className="authorization__question">Ещё не зарегистрированы? <Link className="authorization__question-link" to="/signup">Регистрация</Link></p>

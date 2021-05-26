@@ -48,7 +48,7 @@ function Register() {
           // onChange={handleNameChange}
           // required
         />
-        <span className="register__input-error" id="register-name-error" />
+        <span className="register__input-error" id="login-name-error">Что-то пошло не так</span>
 
         <label className="register__label" htmlFor="login-email">E-mail</label>
         <input
@@ -63,7 +63,7 @@ function Register() {
           // onChange={handleEmailChange}
           // required
         />
-        <span className="register__input-error" id="register-email-error" />
+        <span className="register__input-error" id="login-email-error">Что-то пошло не так</span>
 
 
         <label className="register__label" htmlFor="login-password">Пароль</label>
@@ -79,7 +79,7 @@ function Register() {
           // onChange={handlePasswordChange}
           // required
         />
-        <span className="register__input-error" id="register-name-error" />
+        <span className="register__input-error" id="login-password-error">Что-то пошло не так</span>
 
 
         <button type="submit" className="register__button">Зарегистрироваться</button>

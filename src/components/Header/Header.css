@@ -81,12 +81,18 @@
   box-sizing: border-box;
 }
 
-/*Для экранов с расширением  320-768*/
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 1024px) {
 	.header__wrapper {
 		padding: 18px 30px 12px;
 	}
 }
+
+@media screen and (max-width: 768px) {
+	.header__wrapper {
+		padding: 18px 14px 12px;
+	}
+}
+
 
 .header__button-burger {
   padding: 0;

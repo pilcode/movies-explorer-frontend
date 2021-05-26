@@ -1,28 +1,29 @@
 import React from 'react';
-import './Movies.css';
+import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 
-function Movies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFavoriteCard}) {
 
-  const slicedCards = cards.slice(0, 16)
+function SavedMovies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFavoriteCard}) {
+
+  // const slicedCards = cards.slice(0, 16)
 
 
   return (
-    <section className="movies">
+    <section className="movies__favorite">
       <SearchForm
         onSearch={onSearch}
       />
       {isLoading && <Preloader />}
+
       <MoviesCardList
-        cards={slicedCards}
+        cards={cards}
         onAddFavoriteCard={onAddFavoriteCard}
         onDeleteFavoriteCard={onDeleteFavoriteCard}
       />
-      <button className="movies__more">Еще</button>
     </section>
   );
 }
 
-export default Movies;
+export default SavedMovies;

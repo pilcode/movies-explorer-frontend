@@ -1,0 +1,94 @@
+
+.popup {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+  display: flex;
+}
+
+.popup_opened {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+
+.popup__content {
+  width: 100%;
+  max-width: 410px;
+  background-color: #FFF;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  padding: 36px;
+  position: relative;
+  text-align: center;
+}
+
+.popup__button-close {
+  width: 40px;
+  height: 40px;
+  background: transparent url('../../images/Cros-delete.svg') center no-repeat;
+  background-size: 40px 40px;
+  border: none;
+  position: absolute;
+  top: -38px;
+  right: -38px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+
+.popup__button-close:hover {
+  opacity: 0.6;
+}
+
+
+.popup__info-image {
+  max-width: 120px;
+  max-height: 120px;
+  margin: 24px auto 32px;
+}
+
+.popup__info-text {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: center;
+  color: #000000;
+  margin: 0 auto 24px;
+  padding: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .popup {
+    padding: 0 19px;
+  }
+
+  .popup__content {
+    padding: 25px 22px;
+  }
+
+  .popup__button-close {
+    top: -60px;
+    right: 0;
+    background-size: 26px 26px;
+  }
+
+  .popup__info-text {
+    font-size: 20px;
+  }
+
+}

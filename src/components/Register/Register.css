@@ -55,7 +55,9 @@
   box-sizing: border-box;
 }
 
-.register__input_invalid {
+/* .register__input_invalid { */
+.register__input:invalid {
+
   /* border: 1px solid #FF0000; */
   color: #FF0000;
 }

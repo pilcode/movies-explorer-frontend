@@ -3,11 +3,30 @@ import React from 'react';
 import './Profile.css';
 
 function Profile({ name, onLogin, onSignout }) {
+  const [buttonText, setButtonText] = React.useState('Редактировать');
+  const [disabledInput, setDisabledInput] = React.useState(true);
+  const [changeTypeBytton, setChangeTypeBytton] = React.useState('button');
+
 
   function handleSubmit(e) {
     e.preventDefault();
     // onLogin({ name, email });
-    onLogin();
+    // onLogin();
+
+  }
+
+  function handleEditProfile() {
+    // element.removeAttribute("disabled");
+    if (buttonText === 'Редактировать') {
+      setDisabledInput(false);
+      setButtonText('Сохранить');
+
+    } else if(buttonText === 'Сохранить') {
+      setDisabledInput(true);
+      setButtonText('Редактировать');
+      setChangeTypeBytton('submit');
+
+    }
   }
 
 
@@ -19,6 +38,7 @@ function Profile({ name, onLogin, onSignout }) {
         <div className="profile__wrapper">
           <label className="profile__label" htmlFor="login-name">Имя</label>
           <input
+            disabled={disabledInput}
             className="profile__input profile__input_type_name"
             type="email"
             name="loginEmail"
@@ -35,11 +55,12 @@ function Profile({ name, onLogin, onSignout }) {
         <div className="profile__wrapper">
           <label className="profile__label" htmlFor="login-email">E-mail</label>
           <input
+            disabled={disabledInput}
             className="profile__input profile__input_type_email"
             type="email"
             name="loginEmail"
-            // value={email}
             id="login-email"
+            // value={email}
             // placeholder="Email"
             // minLength="2"
             // maxLength="30"
@@ -48,7 +69,8 @@ function Profile({ name, onLogin, onSignout }) {
           />
         </div>
 
-        <button type="submit" className="profile__button">Редактировать</button>
+        <button type={changeTypeBytton} className="profile__button" onClick={handleEditProfile}>{buttonText}</button>
+        {/* <button type="submit" className="profile__button">Сохраниеть</button> */}
         <button type='button' className="profile__button" onClick={onSignout}>Выйти из аккаунта</button>
       </form>
     </div>

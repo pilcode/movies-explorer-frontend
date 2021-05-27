@@ -6,8 +6,8 @@ import Portfolio from '../Portfolio/Portfolio';
 
 function AboutMe() {
   return (
-    <section className='student'>
-      <h2 className='student__title'>О проекте</h2>
+    <section className='student' id="student">
+      <h2 className='student__title'>Студент</h2>
       <div className='student__wrapper'>
         <div className='student__info-wrapper'>
           <p className='student__subtitle'>Ирина</p>

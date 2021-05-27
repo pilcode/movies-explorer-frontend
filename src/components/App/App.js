@@ -14,6 +14,7 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
+import InfoTooltipe from '../InfoTooltipe/InfoTooltipe';
 
 // Массив фильмов
 import { movies } from '../../utils/moviesList';
@@ -25,6 +26,7 @@ function App() {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = React.useState(false);
   const [cards, setCards] = React.useState(movies);
   const [favoriteCards, setFavoriteCards] = React.useState([]);
+  const [infoTooltip, setInfoTooltip] = React.useState({ isOpen: false, infoText: '', infoImage: '' });
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -38,6 +40,8 @@ function App() {
       const updatedFavoriteCards = [...favoriteCards];
       updatedFavoriteCards.push(card);
       setFavoriteCards(updatedFavoriteCards);
+      setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
+
   }
 
   function handleDeleteFavoriteCard(card) {
@@ -45,25 +49,28 @@ function App() {
     const cardIndex = updatedFavoriteCards.findIndex((c) => c === card);
     updatedFavoriteCards.splice(cardIndex, 1);
     setFavoriteCards(updatedFavoriteCards);
+    setInfoTooltip({ isOpen: true, infoText: 'Фильм удален из Вашей коллекции.', infoImage: 'error' });
+
   }
-
-  console.log(favoriteCards)
-
 
   function handleSearch() {
     setIsLoading(true);
     setTimeout(() => {setIsLoading(false)}, 2000);
   }
 
+  function handlуRegister({ name, email, password }) {
+    // console.log('Сработало в апп handleRegister')
+    setInfoTooltip({ isOpen: true, infoText: 'Вы успешно зарегистрировались!', infoImage: 'success' });
+    history.push('/signin')
+  }
+
   function handleLogin() {
-    console.log('Сработало в апп handleLogin')
+    // console.log('Сработало в апп handleLogin')
     setLoggedIn(true);
     history.push('/')
   }
 
   function handleSignout() {
-    // localStorage.removeItem('token', data.token);
-    // setUserEmail('');
     setLoggedIn(false);
     history.push('/')
   };
@@ -75,6 +82,10 @@ function App() {
 
   function closeBurgerMenu () {
     setIsBurgerMenuOpen(false);
+  }
+
+  function closePopup () {
+    setInfoTooltip({isOpen: false});
   }
 
   const hederElement = (
@@ -125,7 +136,7 @@ function App() {
             <SavedMovies
               onLogin={handleLogin}
               cards={favoriteCards}
-              // isLoading={isLoading}
+              isLoading={isLoading}
               onSearch={handleSearch}
               onAddFavoriteCard={handleAddFavoriteCard}
               onDeleteFavoriteCard={handleDeleteFavoriteCard}
@@ -151,7 +162,7 @@ function App() {
 
           <Route path="/signup">
             <Register
-              onLogin={handleLogin}
+              onRegister={handlуRegister}
             />
           </Route>
 
@@ -161,11 +172,14 @@ function App() {
 
 
         </Switch>
-        {/* <Footer /> */}
       </div>
 
-
-      {/* <EditProfilePopup></EditProfilePopup> */}
+      <InfoTooltipe
+        isOpen={infoTooltip.isOpen}
+        onClose={closePopup}
+        infoText={infoTooltip.infoText}
+        infoImage={infoTooltip.infoImage}
+      />
 
     </FavoriteCardsContext.Provider>
   );

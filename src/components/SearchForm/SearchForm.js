@@ -5,7 +5,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({onSearch}) {
   return (
-    <section className="search-form">
+    <section className="search-form" aria-label="Поиск">
       <div className="search-form__wrapper">
         <input
           className="search-form__input search-form__input_tupe_search"

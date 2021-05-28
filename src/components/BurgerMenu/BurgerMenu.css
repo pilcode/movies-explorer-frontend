@@ -10,13 +10,6 @@
   right: 0;
 }
 
-/* Для экранов с расширением  320-767 */
-/* @media screen and (max-width: 1020px) {
-  .header__burger-menu {
-    display: flex;
-  }
-} */
-
 .burger__list {
   list-style: none;
   display: flex;
@@ -36,7 +29,6 @@
 
 .burger__item {
   margin: 28px 0 0 0;
-  /* padding-top: 28px; */
 }
 
 .burger__item:first-of-type {
@@ -64,7 +56,6 @@
 }
 
 .burger__link_active {
-  /* text-decoration: underline; */
   border-bottom: 2px solid #000;
 }
 
@@ -82,7 +73,7 @@
 .burger__button-close {
   width: 44px;
   height: 44px;
-  background: transparent url('../../images/Cros-black.png');
+  background: transparent url('../../images/Cross-close.svg');
   background-size: 44px 44px;
   position: absolute;
   top: 18px;

@@ -4,6 +4,7 @@
 	align-items: center;
 	justify-content: space-between;
 	flex-direction: column-reverse;
+  z-index: 1;
 }
 
 .header__link {
@@ -46,7 +47,7 @@
 }
 
 .header__checkbox-input:checked + .header__checkbox-label {
-  background-image: url(../../images/Cros-black.png);
+  background-image: url(../../images/Cross-close.svg);
 }
 
 .header__checkbox-label {

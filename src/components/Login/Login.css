@@ -1,8 +1,7 @@
 .authorization {
-  /* padding: 70px 0; */
+  width: 100%;
   max-width: 396px;
   height: 100%;
-  /* text-align: center; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -21,67 +20,18 @@
   line-height: 1.2;
   color: #000;
   margin: 40px 0;
-  /* position: relative; */
 }
 
 .authorization__form {
+  width: 100%;
   max-width: 396px;
   margin: 0 auto;
   position: relative;
 }
 
-.authorization__label {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 1.2;
-  color: #A0A0A0;
-  margin: 0;
-}
-
-.authorization__input {
-  width: 100%;
-  min-width: 40px;
-  border: none;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 1.2;
-  background-color: #F4F4F4;
-  padding: 15px;
-  border-radius: 8px;
-  /* position: relative; */
-  color: #000;
-  margin: 10px 0 20px;
-  box-sizing: border-box;
-}
-
-.authorization__input:invalid {
-  /* border: 1px solid #FF0000; */
-  color: #FF0000;
-}
-
-.authorization__input:last-of-type {
-  margin: 10px 0 0;
-}
-
-.authorization__input-error {
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 1.5;
-  color: #FF0000;
-  height: 33px;
-  position: absolute;
-  left: 0px;
-  right: 36px;
-  top: 170px;
-
-}
-
-.authorization__input-error:first-of-type {
-  top: 75px;
-}
-
+/* .authorization__input {
+  margin: 0 0 30px;
+} */
 
 .authorization__button {
   width: 100%;
@@ -129,12 +79,6 @@
   cursor: pointer;
 }
 
-/* @media screen and (max-width: 1023px) {
-  .authorization {
-    padding: 0 30px 40px;
-  }
-} */
-
 /*Для экранов с расширением  320-767*/
 @media screen and (max-width: 767px) {
   .authorization {
@@ -154,14 +98,6 @@
     align-items: stretch;
     flex-grow: 1;
     width: 100%;
-  }
-
-  .authorization__input-error {
-    top: 157px;
-  }
-
-  .authorization__input-error:first-of-type {
-    top: 69px;
   }
 
   .authorization__button {

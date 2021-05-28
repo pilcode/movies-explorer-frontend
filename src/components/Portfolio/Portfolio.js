@@ -4,8 +4,8 @@ import './Portfolio.css';
 
 function Portfolio() {
   return (
-    <>
-      <h3 className='portfolio'>Портфолио</h3>
+    <div className="portfolio">
+      <h3 className='portfolio__title'>Портфолио</h3>
       <ul className='portfolio__list'>
         <li className='portfolio__item'>
           <a className='portfolio__link' href="https://pilcode.github.io/how-to-learn/" target="_blank" rel="noreferrer">Статичный сайт</a>
@@ -20,7 +20,7 @@ function Portfolio() {
           <div className='portfolio__arrow'></div>
         </li>
       </ul>
-    </>
+    </div>
   );
 }
 

@@ -20,8 +20,14 @@ function InfoTooltip({ isOpen, onClose, infoText, infoImage}) {
     img = cross
   }
 
+  function handleClickOverlay (e) {
+    if (e.target.classList.contains('popup')) {
+      onClose();
+    };
+  }
+
   return (
-    <div className={"popup" + openClass}>
+    <div className={"popup" + openClass} onClick={handleClickOverlay}>
       <div className="popup__content">
         {/* <div className="popup__form"> */}
           {img && (<img className="popup__info-image" src={img} alt="Каринка" />)}

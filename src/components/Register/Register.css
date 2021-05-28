@@ -1,4 +1,5 @@
 .register {
+  width: 100%;
   max-width: 396px;
   height: 100%;
   margin: 0 auto;
@@ -19,73 +20,18 @@
   line-height: 1.2;
   color: #000;
   margin: 40px 0;
-  /* position: relative; */
-  /* text-align: center */
 }
 
 .register__form {
+  width: 100%;
   max-width: 396px;
   margin: 0 auto;
   position: relative;
 }
 
-.register__label {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 1.2;
-  color: #A0A0A0;
-  margin: 0;
-}
-
-.register__input {
-  width: 100%;
-  min-width: 40px;
-  border: none;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 1.2;
-  background-color: #F4F4F4;
-  padding: 15px;
-  border-radius: 8px;
-  position: relative;
-  color: #000;
-  margin: 10px 0 20px;
-  box-sizing: border-box;
-}
-
-/* .register__input_invalid { */
-.register__input:invalid {
-
-  /* border: 1px solid #FF0000; */
-  color: #FF0000;
-}
-
-.register__input:last-of-type {
-  margin: 10px 0 0;
-}
-
-.register__input-error {
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 1.5;
-  color: #FF0000;
-  height: 33px;
-  position: absolute;
-  left: 0px;
-  right: 36px;
-  top: 170px;
-}
-
-.register__input-error:first-of-type {
-  top: 75px;
-}
-
-.register__input-error:last-of-type {
-  top: 264px;
-}
-
+/* .register__input {
+  margin: 0 0 30px;
+} */
 
 .register__button {
   width: 100%;
@@ -154,19 +100,6 @@
     flex-grow: 1;
     width: 100%;
   }
-
-  .register__input-error {
-    top: 157px;
-  }
-
-  .register__input-error:first-of-type {
-    top: 69px;
-  }
-
-  .register__input-error:last-of-type {
-    top: 245px;
-  }
-
 
   .register__button {
     margin: auto 0 0;

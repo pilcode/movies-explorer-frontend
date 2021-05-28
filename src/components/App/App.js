@@ -24,7 +24,7 @@ import { movies } from '../../utils/moviesList';
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = React.useState(false);
-  const [cards, setCards] = React.useState(movies);
+  const [cards, setCards] = React.useState([]);
   const [favoriteCards, setFavoriteCards] = React.useState([]);
   const [infoTooltip, setInfoTooltip] = React.useState({ isOpen: false, infoText: '', infoImage: '' });
 
@@ -35,6 +35,10 @@ function App() {
   React.useEffect(() => {
     setIsBurgerMenuOpen(false);
   }, [pathname])
+
+  React.useEffect(() => {
+    setCards(movies);
+  }, [])
 
   function handleAddFavoriteCard(card) {
       const updatedFavoriteCards = [...favoriteCards];
@@ -64,7 +68,7 @@ function App() {
     history.push('/signin')
   }
 
-  function handleLogin() {
+  function handleLogin({ email, pasword }) {
     // console.log('Сработало в апп handleLogin')
     setLoggedIn(true);
     history.push('/')

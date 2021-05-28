@@ -11,7 +11,7 @@ function SavedMovies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFav
 
 
   return (
-    <section className="movies__favorite">
+    <main className="movies__favorite">
       <SearchForm
         onSearch={onSearch}
       />
@@ -22,7 +22,7 @@ function SavedMovies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFav
         onAddFavoriteCard={onAddFavoriteCard}
         onDeleteFavoriteCard={onDeleteFavoriteCard}
       />
-    </section>
+    </main>
   );
 }
 

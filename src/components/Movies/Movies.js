@@ -10,7 +10,7 @@ function Movies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFavorite
 
 
   return (
-    <section className="movies">
+    <main className="movies">
       <SearchForm
         onSearch={onSearch}
       />
@@ -21,7 +21,7 @@ function Movies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFavorite
         onDeleteFavoriteCard={onDeleteFavoriteCard}
       />
       <button className="movies__more">Еще</button>
-    </section>
+    </main>
   );
 }
 

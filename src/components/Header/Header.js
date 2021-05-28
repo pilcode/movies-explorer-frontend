@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import './Header.css'
-// import './__button/header__button.css'
 
 function Header({ isOpen, onClose, onBurgerMenu, loggedIn }) {
   const {pathname }= useLocation();
@@ -16,7 +15,6 @@ function Header({ isOpen, onClose, onBurgerMenu, loggedIn }) {
 
   if(!loggedIn) {
     headerLink = (
-      <>
         <nav className="navigation navigation__main">
           <ul className="navigation__list">
             <li className="navigation__item">
@@ -27,7 +25,6 @@ function Header({ isOpen, onClose, onBurgerMenu, loggedIn }) {
             </li>
           </ul>
         </nav>
-      </>
     );
   }
 
@@ -41,7 +38,6 @@ function Header({ isOpen, onClose, onBurgerMenu, loggedIn }) {
   }
 
   return (
-
     <header className="header">
       <div className="header__wrapper">
         <Link className="header__link" to="/">

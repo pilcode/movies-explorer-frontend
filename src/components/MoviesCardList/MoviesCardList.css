@@ -17,7 +17,13 @@
 }
 
 /*Для экранов с расширением  320-767*/
-@media screen and (max-width: 767px) {
+/* @media screen and (max-width: 767px) {
+  .elements {
+    grid-template-columns: repeat(1, 1fr);
+  }
+} */
+
+@media screen and (max-width: 425px) {
   .elements {
     grid-template-columns: repeat(1, 1fr);
   }

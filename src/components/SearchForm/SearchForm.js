@@ -12,6 +12,7 @@ function SearchForm({onSearch}) {
           type="text"
           name="searchForm"
           placeholder="Фильм"
+          required
         />
         <button className="search-form__button" type="button" onClick={onSearch}>Поиск</button>
       </div>

@@ -1,0 +1,10 @@
+.logo {
+    max-width: 38px;
+}
+
+/*Для экранов с расширением  320-767*/
+/* @media screen and (max-width: 767px) {
+    .logo {
+        max-width: 1px;
+    }
+} */

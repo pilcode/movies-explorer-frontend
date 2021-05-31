@@ -1,0 +1,24 @@
+.movies__favorite {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 1.38;
+  /* background-color: teal; */
+  padding: 0 70px 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .movies__favorite {
+    padding: 0 30px 140px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .movies__favorite {
+    padding: 0 10px 140px;
+  }
+}

@@ -1,0 +1,118 @@
+.header {
+	display: flex;
+  /* display: none; */
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column-reverse;
+  z-index: 1;
+}
+
+.header__link {
+  text-decoration: none;
+  transition: opacity 0.25s;
+}
+
+.header__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.logo {
+  max-width: 38px;
+}
+
+/* @media screen and (max-width: 1024px) {
+  .header {
+    display: flex;
+  }
+} */
+
+.header__checkbox{
+  max-width: 30px;
+  min-height: 30px;
+  display: none;
+}
+
+@media screen and (max-width: 1020px) {
+  .header__checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+  }
+}
+
+.header__checkbox-input {
+  display: none;
+}
+
+.header__checkbox-input:checked + .header__checkbox-label {
+  background-image: url(../../images/Cross-close.svg);
+}
+
+.header__checkbox-label {
+  width: 30px;
+  height: 30px;
+  display: none;
+  align-items: center;
+  transition: opacity 0.25s;
+  background-image: url('../../images/Burger.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.25s;
+}
+
+.header__checkbox-label:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  .header__checkbox-label {
+    display: block;
+  }
+}
+
+.header__wrapper {
+  padding: 18px 70px 18px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1024px) {
+	.header__wrapper {
+		padding: 18px 30px 12px;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.header__wrapper {
+		padding: 18px 14px 12px;
+	}
+}
+
+
+.header__button-burger {
+  padding: 0;
+  background: url('../../images/Burger.svg');
+  transition: opacity 0.25s;
+  border: none;
+  width: 44px;
+  height: 44px;
+  display: none;
+}
+
+.header__button-burger:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/*Для экранов с расширением  320-767*/
+@media screen and (max-width: 1024px) {
+  .header__button-burger {
+    display: flex;
+  }
+}

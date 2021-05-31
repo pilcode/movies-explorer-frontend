@@ -20,6 +20,8 @@
   padding: 10px;
   width: 100%;
   display: flex;
+  position: relative;
+
 
 }
 
@@ -55,6 +57,19 @@
   max-width: 100px;
 }
 
+.search-form__error {
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #FF0000;
+  height: 33px;
+  position: absolute;
+  left: 0px;
+  right: 36px;
+  top: 75px;
+
+}
+
 @media screen and (max-width: 767px) {
   .search-form {
     margin-bottom: 50px;
@@ -73,5 +88,9 @@
   }
   .search-form__input {
     margin: 0 6px 0 0;
+  }
+
+  .search-form__error {
+    top: 58px;
   }
 }

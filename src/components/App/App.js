@@ -4,6 +4,7 @@ import './App.css';
 import React from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import {FavoriteCardsContext} from '../../contexts/favoriteCardsContext';
+import {getInitialCards} from '../../utils/moviesApi';
 
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -17,7 +18,7 @@ import NotFound from '../NotFound/NotFound';
 import InfoTooltipe from '../InfoTooltipe/InfoTooltipe';
 
 // Массив фильмов
-import { movies } from '../../utils/moviesList';
+// import { movies } from '../../utils/moviesList';
 
 
 
@@ -25,6 +26,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
+  const [filterCards, setFilterCards] = React.useState([]);
   const [favoriteCards, setFavoriteCards] = React.useState([]);
   const [infoTooltip, setInfoTooltip] = React.useState({ isOpen: false, infoText: '', infoImage: '' });
 
@@ -37,8 +39,38 @@ function App() {
   }, [pathname])
 
   React.useEffect(() => {
-    setCards(movies);
+    if (localStorage.movies) {
+      setCards(JSON.parse(localStorage.movies));
+    }
   }, [])
+
+  function filterMovies(search, isShortMovies) {
+    const movies = cards.filter(({ nameRU, nameEN, duration }) => {
+      const matchesRu = nameRU ? nameRU.toLowerCase().includes(search.toLowerCase()) : false
+      const matchesEn = nameEN ? nameEN.toLowerCase().includes(search.toLowerCase()) : false
+      const matchesDuration = (isShortMovies && duration) ? duration < 40 : true
+      return (matchesRu || matchesEn) && matchesDuration
+    })
+    setFilterCards(movies)
+  }
+
+  function handleSearch(search, isShortMovies) {
+    if (!localStorage.movies) {
+      setIsLoading(true);
+      getInitialCards()
+      .then((res) => {
+        localStorage.setItem('movies', JSON.stringify(res))
+        setCards(res);
+        setIsLoading(false);
+        filterMovies(search, isShortMovies)
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      })
+    } else {
+      filterMovies(search, isShortMovies)
+    }
+  }
 
   function handleAddFavoriteCard(card) {
       const updatedFavoriteCards = [...favoriteCards];
@@ -57,10 +89,10 @@ function App() {
 
   }
 
-  function handleSearch() {
-    setIsLoading(true);
-    setTimeout(() => {setIsLoading(false)}, 2000);
-  }
+  // function handleSearch() {
+  //   setIsLoading(true);
+  //   setTimeout(() => {setIsLoading(false)}, 2000);
+  // }
 
   function handlуRegister({ name, email, password }) {
     // console.log('Сработало в апп handleRegister')
@@ -126,11 +158,12 @@ function App() {
             {hederElement}
             <Movies
               onLogin={handleLogin}
-              cards={cards}
+              cards={filterCards}
               isLoading={isLoading}
               onSearch={handleSearch}
               onAddFavoriteCard={handleAddFavoriteCard}
               onDeleteFavoriteCard={handleDeleteFavoriteCard}
+              onFilterMovies={filterMovies}
             />
             {footerElement}
           </Route>

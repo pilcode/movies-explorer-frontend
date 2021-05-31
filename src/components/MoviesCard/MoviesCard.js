@@ -1,6 +1,7 @@
 import React from 'react';
 import {FavoriteCardsContext} from '../../contexts/favoriteCardsContext';
 import { useLocation } from 'react-router-dom';
+import defaultMovieImage from '../../images/default-movie.jpg';
 import './MoviesCard.css';
 
 
@@ -42,10 +43,12 @@ function Card({card, onAddFavoriteCard, onDeleteFavoriteCard}) {
     )
   }
 
+  const imageMovie = card.image ? 'https://api.nomoreparties.co' + card.image.formats.thumbnail.url : defaultMovieImage;
+
   return (
     <article className="element">
       <div className="element__wrapper">
-        <img className="element__image" alt={card.nameRU} src={'https://api.nomoreparties.co' + card.image.formats.thumbnail.url} />
+        <img className="element__image" alt={card.nameRU} src={imageMovie} />
       </div>
       <div className="element__panel">
         <h2 className="element__title">{card.nameRU}</h2>

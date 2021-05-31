@@ -5,10 +5,6 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 
 function Movies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFavoriteCard}) {
-
-  const slicedCards = cards.slice(0, 16)
-
-
   return (
     <main className="movies">
       <SearchForm
@@ -16,7 +12,7 @@ function Movies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFavorite
       />
       {isLoading && <Preloader />}
       <MoviesCardList
-        cards={slicedCards}
+        cards={cards}
         onAddFavoriteCard={onAddFavoriteCard}
         onDeleteFavoriteCard={onDeleteFavoriteCard}
       />

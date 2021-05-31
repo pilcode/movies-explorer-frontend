@@ -9,7 +9,6 @@ function SavedMovies({cards, isLoading, onSearch, onAddFavoriteCard, onDeleteFav
 
   // const slicedCards = cards.slice(0, 16)
 
-
   return (
     <main className="movies__favorite">
       <SearchForm

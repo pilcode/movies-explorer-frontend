@@ -28,6 +28,7 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [filterCards, setFilterCards] = React.useState([]);
   const [favoriteCards, setFavoriteCards] = React.useState([]);
+  const [filterFavoriteCards, setFilterFavoriteCards] = React.useState([]);
   const [infoTooltip, setInfoTooltip] = React.useState({ isOpen: false, infoText: '', infoImage: '' });
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -36,6 +37,9 @@ function App() {
   const { pathname }= useLocation();
   React.useEffect(() => {
     setIsBurgerMenuOpen(false);
+    if (pathname === '/saved-movies') {
+      setFilterFavoriteCards([])
+    }
   }, [pathname])
 
   React.useEffect(() => {
@@ -44,14 +48,14 @@ function App() {
     }
   }, [])
 
-  function filterMovies(search, isShortMovies) {
-    const movies = cards.filter(({ nameRU, nameEN, duration }) => {
+  function filterMovies(target, set, search, isShortMovies) {
+    const movies = target.filter(({ nameRU, nameEN, duration }) => {
       const matchesRu = nameRU ? nameRU.toLowerCase().includes(search.toLowerCase()) : false
       const matchesEn = nameEN ? nameEN.toLowerCase().includes(search.toLowerCase()) : false
       const matchesDuration = (isShortMovies && duration) ? duration < 40 : true
       return (matchesRu || matchesEn) && matchesDuration
     })
-    setFilterCards(movies)
+    set(movies)
   }
 
   function handleSearch(search, isShortMovies) {
@@ -62,14 +66,18 @@ function App() {
         localStorage.setItem('movies', JSON.stringify(res))
         setCards(res);
         setIsLoading(false);
-        filterMovies(search, isShortMovies)
+        filterMovies(cards, setFilterCards, search, isShortMovies)
       })
       .catch((error) => {
         setIsLoading(false);
       })
     } else {
-      filterMovies(search, isShortMovies)
+      filterMovies(cards, setFilterCards, search, isShortMovies)
     }
+  }
+
+  function handleSearchInFavorite(search, isShortMovies) {
+    filterMovies(favoriteCards, setFilterFavoriteCards, search, isShortMovies)
   }
 
   function handleAddFavoriteCard(card) {
@@ -77,7 +85,6 @@ function App() {
       updatedFavoriteCards.push(card);
       setFavoriteCards(updatedFavoriteCards);
       setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
-
   }
 
   function handleDeleteFavoriteCard(card) {
@@ -172,9 +179,9 @@ function App() {
             {hederElement}
             <SavedMovies
               onLogin={handleLogin}
-              cards={favoriteCards}
+              cards={filterFavoriteCards.length ? filterFavoriteCards : favoriteCards}
               isLoading={isLoading}
-              onSearch={handleSearch}
+              onSearch={handleSearchInFavorite}
               onAddFavoriteCard={handleAddFavoriteCard}
               onDeleteFavoriteCard={handleDeleteFavoriteCard}
             />

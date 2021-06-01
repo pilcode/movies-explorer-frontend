@@ -6,19 +6,6 @@
   margin: 151px 0 30px 0;
 }
 
-/* @media screen and (max-width: 1024px) {
-  .nav {
-    margin: 314px 0 30px 0;
-  }
-} */
-
-/* @media screen and (max-width: 768px) {
-  .nav {
-    margin: 220px 0 17px 0;
-  }
-} */
-
-
 .nav__list {
   list-style: none;
   display: flex;

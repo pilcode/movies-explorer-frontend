@@ -48,7 +48,9 @@ function Card({card, onAddFavoriteCard, onDeleteFavoriteCard}) {
   return (
     <article className="element">
       <div className="element__wrapper">
-        <img className="element__image" alt={card.nameRU} src={imageMovie} />
+        <a className="element__link-image" href={card.trailerLink} target="_blank" rel="noreferrer">
+          <img className="element__image" alt={card.nameRU} src={imageMovie} />
+        </a>
       </div>
       <div className="element__panel">
         <h2 className="element__title">{card.nameRU}</h2>

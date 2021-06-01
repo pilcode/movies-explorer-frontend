@@ -29,7 +29,10 @@ function App() {
   const [filterCards, setFilterCards] = React.useState([]);
   const [favoriteCards, setFavoriteCards] = React.useState([]);
   const [filterFavoriteCards, setFilterFavoriteCards] = React.useState([]);
+  const [sliceCounter, setSliceCounter] = React.useState(0);
   const [infoTooltip, setInfoTooltip] = React.useState({ isOpen: false, infoText: '', infoImage: '' });
+  const [cardsError, setCardsError] = React.useState('');
+  const [windowWidth, setWindowWidth] = React.useState(null);
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -43,6 +46,23 @@ function App() {
   }, [pathname])
 
   React.useEffect(() => {
+    setWindowWidth(window.innerWidth);
+
+    let countCards = 0;
+    if (window.innerWidth > 1024) {
+      countCards = 16
+    } else if (window.innerWidth > 425) {
+      countCards = 8
+    } else {
+      countCards = 5
+    }
+    setSliceCounter(countCards)
+
+    function handleResize(event) {
+      setWindowWidth(event.target.innerWidth);
+      console.log(event.target.innerWidth);
+    }
+    window.addEventListener('resize', handleResize)
     if (localStorage.movies) {
       setCards(JSON.parse(localStorage.movies));
     }
@@ -52,13 +72,15 @@ function App() {
     const movies = target.filter(({ nameRU, nameEN, duration }) => {
       const matchesRu = nameRU ? nameRU.toLowerCase().includes(search.toLowerCase()) : false
       const matchesEn = nameEN ? nameEN.toLowerCase().includes(search.toLowerCase()) : false
-      const matchesDuration = (isShortMovies && duration) ? duration < 40 : true
+      const matchesDuration = (isShortMovies && duration) ? duration < 41 : true
       return (matchesRu || matchesEn) && matchesDuration
     })
     set(movies)
+    return movies.length
   }
 
   function handleSearch(search, isShortMovies) {
+    setCardsError('');
     if (!localStorage.movies) {
       setIsLoading(true);
       getInitialCards()
@@ -66,25 +88,49 @@ function App() {
         localStorage.setItem('movies', JSON.stringify(res))
         setCards(res);
         setIsLoading(false);
-        filterMovies(cards, setFilterCards, search, isShortMovies)
+        const filterMoviesLength = filterMovies(res, setFilterCards, search, isShortMovies)
+        if (filterMoviesLength === 0) {
+          setCardsError('Ничего не найдено');
+        }
       })
       .catch((error) => {
         setIsLoading(false);
+        setCardsError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
       })
     } else {
-      filterMovies(cards, setFilterCards, search, isShortMovies)
+      const filterMoviesLength = filterMovies(cards, setFilterCards, search, isShortMovies)
+      if (filterMoviesLength === 0) {
+        setCardsError('Ничего не найдено');
+      }
     }
   }
 
+
   function handleSearchInFavorite(search, isShortMovies) {
+    setCardsError('');
     filterMovies(favoriteCards, setFilterFavoriteCards, search, isShortMovies)
   }
 
+  function handleSlice() {
+    let countCards = 0;
+    if (windowWidth > 1024) {
+      countCards = 4
+    } else {
+      countCards = 2
+    }
+    setSliceCounter(sliceCounter + countCards)
+  }
+
+  function slice(movies) {
+    return movies.slice(0, sliceCounter);
+  }
+
+
   function handleAddFavoriteCard(card) {
-      const updatedFavoriteCards = [...favoriteCards];
-      updatedFavoriteCards.push(card);
-      setFavoriteCards(updatedFavoriteCards);
-      setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
+    const updatedFavoriteCards = [...favoriteCards];
+    updatedFavoriteCards.push(card);
+    setFavoriteCards(updatedFavoriteCards);
+    setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
   }
 
   function handleDeleteFavoriteCard(card) {
@@ -165,12 +211,15 @@ function App() {
             {hederElement}
             <Movies
               onLogin={handleLogin}
-              cards={filterCards}
+              cards={slice(filterCards)}
+              filterCards={filterCards}
               isLoading={isLoading}
               onSearch={handleSearch}
               onAddFavoriteCard={handleAddFavoriteCard}
               onDeleteFavoriteCard={handleDeleteFavoriteCard}
               onFilterMovies={filterMovies}
+              onMore={handleSlice}
+              errorMessage={cardsError}
             />
             {footerElement}
           </Route>

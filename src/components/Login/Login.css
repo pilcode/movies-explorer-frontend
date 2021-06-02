@@ -54,6 +54,12 @@
   cursor: pointer;
 }
 
+.authorization__button:disabled {
+  opacity: 0.85;
+  background-color: #A0A0A0;
+}
+
+
 .authorization__question {
   font-style: normal;
   font-weight: normal;

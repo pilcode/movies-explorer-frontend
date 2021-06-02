@@ -1,10 +1,12 @@
-// import {CurrentUserContext} from '../../contexts/currentUserContext';
+import {CurrentUserContext} from '../../contexts/currentUserContext';
 // import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import './App.css';
 import React from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import {FavoriteCardsContext} from '../../contexts/favoriteCardsContext';
-import {getInitialCards} from '../../utils/moviesApi';
+import { FavoriteCardsContext } from '../../contexts/favoriteCardsContext';
+import { getInitialCards } from '../../utils/moviesApi';
+import { register, login, getMe, updateUser, likeCard, deleteCard } from '../../utils/mainApi';
+
 
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -16,6 +18,8 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import InfoTooltipe from '../InfoTooltipe/InfoTooltipe';
+
+
 
 // Массив фильмов
 // import { movies } from '../../utils/moviesList';
@@ -33,6 +37,7 @@ function App() {
   const [infoTooltip, setInfoTooltip] = React.useState({ isOpen: false, infoText: '', infoImage: '' });
   const [cardsError, setCardsError] = React.useState('');
   const [windowWidth, setWindowWidth] = React.useState(null);
+  const [user, setUser] = React.useState([]);
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -48,6 +53,7 @@ function App() {
   React.useEffect(() => {
     setWindowWidth(window.innerWidth);
 
+    // setTimeout
     let countCards = 0;
     if (window.innerWidth > 1024) {
       countCards = 16
@@ -60,13 +66,116 @@ function App() {
 
     function handleResize(event) {
       setWindowWidth(event.target.innerWidth);
-      console.log(event.target.innerWidth);
     }
-    window.addEventListener('resize', handleResize)
+
+    function debounce(f, ms) {
+      let isCooldown = false;
+      return function() {
+        if (isCooldown) return;
+        f.apply(this, arguments);
+        isCooldown = true;
+        setTimeout(() => isCooldown = false, ms);
+      };
+    }
+
+    const handleResizeWithDebounce = debounce(handleResize, 500);
+
+    window.addEventListener('resize', handleResizeWithDebounce)
     if (localStorage.movies) {
       setCards(JSON.parse(localStorage.movies));
     }
   }, [])
+
+  //=========================
+  const checkToken = React.useCallback(() => {
+
+    if (localStorage.token) {
+      getMe({ token: localStorage.token })
+        .then(({data}) => {
+          if(data.email) {
+            setUser(data);
+            setLoggedIn(true);
+          }
+        })
+        .catch((error) => {
+          if(error.status === 401) {
+            setInfoTooltip({ isOpen: true, infoText: 'Токен не передан или передан не в том формате.', infoImage: 'error' })
+          } else if(error.status === 401) {
+            setInfoTooltip({ isOpen: true, infoText: 'Переданный токен некорректен.', infoImage: 'error' })
+          } else {
+            setInfoTooltip({ isOpen: true, infoText: 'Что-то пошло не так! Попробуйте еще раз.', infoImage: 'error' })
+          }
+        })
+    }
+  }, [])
+
+  React.useEffect(() => {
+    checkToken();
+  }, [checkToken])
+
+  function handleLogin({ email, password }) {
+    login({ email, password })
+    .then((data) => {
+      localStorage.setItem('token', data.token);
+      setLoggedIn(true);
+      checkToken();
+      history.push('/');
+    })
+    .catch((error) => {
+      if(error.status === 400) {
+        setInfoTooltip({ isOpen: true, infoText: 'Не передано одно из полей.', infoImage: 'error' });
+      } else if(error.status === 401) {
+        setInfoTooltip({ isOpen: true, infoText: 'Пользователь с email не найден.', infoImage: 'error' });
+      } else {
+        setInfoTooltip({ isOpen: true, infoText: 'Что-то пошло не так! Попробуйте еще раз.', infoImage: 'error' });
+      }
+    })
+  }
+
+  function handleSignout() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    setUser({});
+    history.push('/')
+  };
+
+  function handleRegister({name, email, password}) {
+    register({ name, email, password })
+      .then((res) => {
+        if(res) {
+          setInfoTooltip({ isOpen: true, infoText: 'Вы успешно зарегистрировались!', infoImage: 'success' });
+          history.push('/signin');
+        }
+      })
+      .catch((error) => {
+        if(error.status === 400) {
+          setInfoTooltip({ isOpen: true, infoText: 'Некорректно заполнено одно из полей.', infoImage: 'error' });
+        } else {
+          setInfoTooltip({ isOpen: true, infoText: 'Что-то пошло не так! Попробуйте еще раз.', infoImage: 'error' });
+        }
+      });
+  };
+
+  function handleUpdateUser({name, email}) {
+    updateUser({ name, email, token: localStorage.token })
+      .then((res) => {
+        if(res) {
+          setInfoTooltip({ isOpen: true, infoText: 'Данные успешно обновлены!', infoImage: 'success' });
+          checkToken();
+        }
+      })
+      .catch((error) => {
+        if(error.status === 400) {
+          setInfoTooltip({ isOpen: true, infoText: 'Некорректно заполнено одно из полей.', infoImage: 'error' });
+        } else {
+          setInfoTooltip({ isOpen: true, infoText: 'Что-то пошло не так! Попробуйте еще раз.', infoImage: 'error' });
+        }
+      });
+  };
+
+
+
+//====================
 
   function filterMovies(target, set, search, isShortMovies) {
     const movies = target.filter(({ nameRU, nameEN, duration }) => {
@@ -86,6 +195,23 @@ function App() {
       getInitialCards()
       .then((res) => {
         localStorage.setItem('movies', JSON.stringify(res))
+
+        const movies = res.map((movie) => {
+          return {
+            country: movie.country,
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: movie.image.formats.thumbnail.url ? 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url : '',
+            trailer: movie.trailerLink,
+            thumbnail: movie.thumbnail,
+            movieId: movie.movieId,
+            nameRU: movie.nameRU,
+            nameEN: movie.nameEN
+          }
+        })
+
         setCards(res);
         setIsLoading(false);
         const filterMoviesLength = filterMovies(res, setFilterCards, search, isShortMovies)
@@ -104,7 +230,6 @@ function App() {
       }
     }
   }
-
 
   function handleSearchInFavorite(search, isShortMovies) {
     setCardsError('');
@@ -125,12 +250,32 @@ function App() {
     return movies.slice(0, sliceCounter);
   }
 
-
   function handleAddFavoriteCard(card) {
+    console.log(card)
+    likeCard({
+      token: localStorage.token,
+      country: card.country,
+      director: card.director,
+      duration: card.duration,
+      year: card.year,
+      description: card.description,
+      image: card.image.formats.thumbnail.url ? 'https://api.nomoreparties.co' + card.image.formats.thumbnail.url : '',
+      trailer: card.trailerLink,
+      thumbnail: card.thumbnail,
+      movieId: card.movieId,
+      nameRU: card.nameRU,
+      nameEN: card.nameEN
+    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     const updatedFavoriteCards = [...favoriteCards];
     updatedFavoriteCards.push(card);
     setFavoriteCards(updatedFavoriteCards);
-    setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
+    // setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
   }
 
   function handleDeleteFavoriteCard(card) {
@@ -138,32 +283,8 @@ function App() {
     const cardIndex = updatedFavoriteCards.findIndex((c) => c === card);
     updatedFavoriteCards.splice(cardIndex, 1);
     setFavoriteCards(updatedFavoriteCards);
-    setInfoTooltip({ isOpen: true, infoText: 'Фильм удален из Вашей коллекции.', infoImage: 'error' });
-
+    // setInfoTooltip({ isOpen: true, infoText: 'Фильм удален из Вашей коллекции.', infoImage: 'error' });
   }
-
-  // function handleSearch() {
-  //   setIsLoading(true);
-  //   setTimeout(() => {setIsLoading(false)}, 2000);
-  // }
-
-  function handlуRegister({ name, email, password }) {
-    // console.log('Сработало в апп handleRegister')
-    setInfoTooltip({ isOpen: true, infoText: 'Вы успешно зарегистрировались!', infoImage: 'success' });
-    history.push('/signin')
-  }
-
-  function handleLogin({ email, pasword }) {
-    // console.log('Сработало в апп handleLogin')
-    setLoggedIn(true);
-    history.push('/')
-  }
-
-  function handleSignout() {
-    setLoggedIn(false);
-    history.push('/')
-  };
-
 
   function handleBurgerMenu() {
     setIsBurgerMenuOpen(true);
@@ -191,7 +312,7 @@ function App() {
   )
 
   return (
-    // <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={user}>
     <FavoriteCardsContext.Provider value={favoriteCards}>
 
       <div className="app">
@@ -242,7 +363,7 @@ function App() {
           <Route path="/profile">
             {hederElement}
             <Profile
-              onLogin={handleLogin}
+              onUpdateUser={handleUpdateUser}
               onSignout={handleSignout}
             />
           </Route>
@@ -255,7 +376,7 @@ function App() {
 
           <Route path="/signup">
             <Register
-              onRegister={handlуRegister}
+              onRegister={handleRegister}
             />
           </Route>
 
@@ -275,6 +396,7 @@ function App() {
       />
 
     </FavoriteCardsContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

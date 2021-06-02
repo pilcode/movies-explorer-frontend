@@ -9,15 +9,19 @@ function Input(props) {
     placeholder = '',
     validity = {},
     onChange = () => {},
-    value: initialValue = '',
+    value: initialValue,
     onValidate = () => {},
     disabled = false,
     inline,
     customErrorMessage = ''
   } = props
 
-  const [value, setValue] = React.useState(initialValue);
+  const [value, setValue] = React.useState('');
   const [errorMassage, setErrorMassage] = React.useState('');
+
+  React.useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
 
   const inputRef = React.useRef(null)
 
@@ -48,7 +52,7 @@ function Input(props) {
         className={getClassWithMod('input__field')}
         type={type}
         onChange={handleChange}
-        value={value}
+        value={value || ''}
         placeholder={placeholder}
         { ...validity }
         disabled={disabled}

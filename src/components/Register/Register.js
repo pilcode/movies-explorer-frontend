@@ -9,6 +9,18 @@ function Register({ onRegister }) {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [allValid, setAllValid] = React.useState({name: false, email: false, password: false});
+
+  function handleValidity(target, value) {
+    const valid = {
+      ...allValid,
+      [target]: value
+    }
+    setAllValid(valid)
+  }
+
+  const isValid = Object.values(allValid).every(el => el)
+
 
   function handleNameChange(value) {
     setName(value);
@@ -27,11 +39,6 @@ function Register({ onRegister }) {
     onRegister({ name, email, password });
   }
 
-  function handleValidity(value) {
-    console.log('Валидация', value)
-  }
-
-
   return (
     <div className="register">
       <img className="register__logo" src={logoPath} alt="Логотип проекта" />
@@ -46,17 +53,18 @@ function Register({ onRegister }) {
           validity={{
             minLength: '2',
             maxLength: '20',
-            required: true
+            required: true,
+            pattern: "^[\\sA-Za-zА-Яа-я-]+$"
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('name', value) }
           disabled={ false }
-          value={email}
-          customErrorMessage="Минимально допустимое количество символов: 2"
+          value={name}
+          customErrorMessage="Минимально количество символов: 2"
         />
 
         <Input
           onChange={handleEmailChange}
-          className="authorization__input"
+          className="register__input"
           type="email"
           label="E-mail"
           placeholder="e-mail"
@@ -65,7 +73,7 @@ function Register({ onRegister }) {
             maxLength: '20',
             required: true
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('email', value) }
           disabled={ false }
           value={email}
           customErrorMessage="Неверный формат email"
@@ -73,7 +81,7 @@ function Register({ onRegister }) {
 
         <Input
           onChange={handlePasswordChange}
-          className="authorization__input"
+          className="register__input"
           type="password"
           label="Пароль"
           placeholder="Пароль"
@@ -82,13 +90,13 @@ function Register({ onRegister }) {
             maxLength: '20',
             required: true
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('password', value) }
           disabled={ false }
           value={password}
           customErrorMessage="Минимально допустимое количество символов: 8"
         />
 
-        <button type="submit" className="register__button">Зарегистрироваться</button>
+        <button type="submit" className="register__button" disabled={!isValid}>Зарегистрироваться</button>
         <p className="register__question">Уже зарегистрированы? <Link className="register__question-link" to="/signin">Войти</Link></p>
       </form>
 

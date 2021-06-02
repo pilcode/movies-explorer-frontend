@@ -17,6 +17,7 @@ function handleResponse(res) {
 
 export function getInitialCards() {
   return fetch(`${BASE_URL}/`, {
+    method: 'GET',
     headers: {
       ...defaultHeaders
     }

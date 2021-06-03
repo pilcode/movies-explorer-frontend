@@ -9,7 +9,7 @@ function MoviesCardList({cards, onAddFavoriteCard, onDeleteFavoriteCard}) {
       {cards.map((card) => (
         <MoviesCard
           card={card}
-          key={card.id}
+          key={card.movieId}
           onAddFavoriteCard={onAddFavoriteCard}
           onDeleteFavoriteCard={onDeleteFavoriteCard}
         />

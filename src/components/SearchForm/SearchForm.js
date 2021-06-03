@@ -13,9 +13,17 @@ function SearchForm({onSearch}) {
     setErrorMessage('')
   }
 
-  function handleSearchSubmit() {
+  function handleSearchSubmit(value) {
+    let v
+
+    if (value !== undefined) {
+      v = value
+    } else {
+      v = isShortMovies
+    }
+
     if (search) {
-      onSearch(search, isShortMovies)
+      onSearch(search, v)
       setErrorMessage('')
     } else {
       setErrorMessage('Нужно ввести ключевое слово')
@@ -24,9 +32,8 @@ function SearchForm({onSearch}) {
 
   function handleShortMovies(value) {
     setIsShortMovies(value)
+    handleSearchSubmit(value)
   }
-
-
 
   return (
     <section className="search-form" aria-label="Поиск">
@@ -40,7 +47,7 @@ function SearchForm({onSearch}) {
           onChange={handleSearchInput}
           value={search || ''}
         />
-        <button className="search-form__button" type="button" onClick={handleSearchSubmit}>Поиск</button>
+        <button className="search-form__button" type="button" onClick={() => handleSearchSubmit()}>Поиск</button>
         {!!errorMessage && (<span className="search-form__error">{errorMessage}</span>)}
       </div>
       <FilterCheckbox

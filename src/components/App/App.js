@@ -1,11 +1,11 @@
-import {CurrentUserContext} from '../../contexts/currentUserContext';
-// import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import './App.css';
 import React from 'react';
+import './App.css';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import {CurrentUserContext} from '../../contexts/currentUserContext';
 import { FavoriteCardsContext } from '../../contexts/favoriteCardsContext';
 import { getInitialCards } from '../../utils/moviesApi';
-import { register, login, getMe, updateUser, likeCard, deleteCard } from '../../utils/mainApi';
+import { register, login, getMe, updateUser, getSavedCards, likeCard, deleteCard } from '../../utils/mainApi';
 
 
 import Header from '../Header/Header';
@@ -43,17 +43,34 @@ function App() {
 
   const history = useHistory();
   const { pathname }= useLocation();
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      if (pathname === '/signin' || pathname === '/signup') {
+        history.push('/')
+      }
+    }
+  }, [loggedIn, pathname, history])
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      getSavedCards({token: localStorage.token})
+        .then((res) => {
+          setFavoriteCards(res.data);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [loggedIn])
+
   React.useEffect(() => {
     setIsBurgerMenuOpen(false);
-    if (pathname === '/saved-movies') {
-      setFilterFavoriteCards([])
-    }
   }, [pathname])
 
   React.useEffect(() => {
     setWindowWidth(window.innerWidth);
 
-    // setTimeout
     let countCards = 0;
     if (window.innerWidth > 1024) {
       countCards = 16
@@ -86,7 +103,6 @@ function App() {
     }
   }, [])
 
-  //=========================
   const checkToken = React.useCallback(() => {
 
     if (localStorage.token) {
@@ -134,8 +150,14 @@ function App() {
 
   function handleSignout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('movies');
     setLoggedIn(false);
     setUser({});
+    setCards([])
+    setFilterCards([])
+    setFavoriteCards([])
+    setFilterFavoriteCards([])
+    setSliceCounter(0)
     history.push('/')
   };
 
@@ -144,7 +166,7 @@ function App() {
       .then((res) => {
         if(res) {
           setInfoTooltip({ isOpen: true, infoText: 'Вы успешно зарегистрировались!', infoImage: 'success' });
-          history.push('/signin');
+          handleLogin({ email, password })
         }
       })
       .catch((error) => {
@@ -173,10 +195,6 @@ function App() {
       });
   };
 
-
-
-//====================
-
   function filterMovies(target, set, search, isShortMovies) {
     const movies = target.filter(({ nameRU, nameEN, duration }) => {
       const matchesRu = nameRU ? nameRU.toLowerCase().includes(search.toLowerCase()) : false
@@ -194,8 +212,6 @@ function App() {
       setIsLoading(true);
       getInitialCards()
       .then((res) => {
-        localStorage.setItem('movies', JSON.stringify(res))
-
         const movies = res.map((movie) => {
           return {
             country: movie.country,
@@ -203,18 +219,19 @@ function App() {
             duration: movie.duration,
             year: movie.year,
             description: movie.description,
-            image: movie.image.formats.thumbnail.url ? 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url : '',
+            image: movie.image?.formats?.thumbnail?.url ? 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url : '',
             trailer: movie.trailerLink,
-            thumbnail: movie.thumbnail,
-            movieId: movie.movieId,
-            nameRU: movie.nameRU,
-            nameEN: movie.nameEN
+            thumbnail: movie.image?.formats?.thumbnail?.url ? 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url : '',
+            movieId: movie.id,
+            nameRU: movie.nameRU || '',
+            nameEN: movie.nameEN || ''
           }
         })
 
-        setCards(res);
+        localStorage.setItem('movies', JSON.stringify(movies))
+        setCards(movies);
         setIsLoading(false);
-        const filterMoviesLength = filterMovies(res, setFilterCards, search, isShortMovies)
+        const filterMoviesLength = filterMovies(movies, setFilterCards, search, isShortMovies)
         if (filterMoviesLength === 0) {
           setCardsError('Ничего не найдено');
         }
@@ -251,39 +268,39 @@ function App() {
   }
 
   function handleAddFavoriteCard(card) {
-    console.log(card)
     likeCard({
       token: localStorage.token,
-      country: card.country,
-      director: card.director,
-      duration: card.duration,
-      year: card.year,
-      description: card.description,
-      image: card.image.formats.thumbnail.url ? 'https://api.nomoreparties.co' + card.image.formats.thumbnail.url : '',
-      trailer: card.trailerLink,
-      thumbnail: card.thumbnail,
-      movieId: card.movieId,
-      nameRU: card.nameRU,
-      nameEN: card.nameEN
+      ...card
     })
       .then((res) => {
-        console.log(res)
+        const updatedFavoriteCards = [...favoriteCards];
+        updatedFavoriteCards.push(res.data);
+        setFavoriteCards(updatedFavoriteCards);
       })
       .catch((error) => {
         console.log(error)
       })
-    const updatedFavoriteCards = [...favoriteCards];
-    updatedFavoriteCards.push(card);
-    setFavoriteCards(updatedFavoriteCards);
-    // setInfoTooltip({ isOpen: true, infoText: 'Фильм добавлен в коллекцию.', infoImage: 'success' });
   }
 
   function handleDeleteFavoriteCard(card) {
-    const updatedFavoriteCards = [...favoriteCards];
-    const cardIndex = updatedFavoriteCards.findIndex((c) => c === card);
-    updatedFavoriteCards.splice(cardIndex, 1);
-    setFavoriteCards(updatedFavoriteCards);
-    // setInfoTooltip({ isOpen: true, infoText: 'Фильм удален из Вашей коллекции.', infoImage: 'error' });
+    const cardId = card?._id
+      ? card._id
+      : favoriteCards.find((c) => c.movieId === card.movieId)?._id
+
+      console.log(cardId)
+
+    deleteCard({token: localStorage.token, cardId})
+      .then(() => {
+        const updatedFavoriteCards = [...favoriteCards];
+        const cardIndex = updatedFavoriteCards.findIndex((c) => c.movieId === card.movieId);
+        if (cardIndex >= 0) {
+          updatedFavoriteCards.splice(cardIndex, 1);
+          setFavoriteCards(updatedFavoriteCards);
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   function handleBurgerMenu() {
@@ -328,7 +345,7 @@ function App() {
             {footerElement}
           </Route>
 
-          <Route path="/movies">
+          <ProtectedRoute exact path="/movies">
             {hederElement}
             <Movies
               onLogin={handleLogin}
@@ -343,9 +360,9 @@ function App() {
               errorMessage={cardsError}
             />
             {footerElement}
-          </Route>
+          </ProtectedRoute>
 
-          <Route path="/saved-movies">
+          <ProtectedRoute exact path="/saved-movies">
             {hederElement}
             <SavedMovies
               onLogin={handleLogin}
@@ -356,25 +373,25 @@ function App() {
               onDeleteFavoriteCard={handleDeleteFavoriteCard}
             />
             {footerElement}
-          </Route>
+          </ProtectedRoute>
 
 
 
-          <Route path="/profile">
+          <ProtectedRoute exact path="/profile">
             {hederElement}
             <Profile
               onUpdateUser={handleUpdateUser}
               onSignout={handleSignout}
             />
-          </Route>
+          </ProtectedRoute>
 
-          <Route path="/signin">
+          <Route exact path="/signin">
             <Login
               onLogin={handleLogin}
             />
           </Route>
 
-          <Route path="/signup">
+          <Route exact path="/signup">
             <Register
               onRegister={handleRegister}
             />

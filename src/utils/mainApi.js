@@ -69,21 +69,20 @@ export function getMe({token}) {
     .then(handleResponse)
 }
 
-// export function getSavedCards() {
-//   return fetch(`${this._baseUrl}/movies`, {
-//     method: 'GET',
-//     headers: {
-//       ...defaultHeaders,
-//     },
-//   })
-//     .then(this._handleResponse)
-
-// }
+export function getSavedCards({token}) {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'GET',
+    headers: {
+      ...defaultHeaders,
+      'Authorization' : `Bearer ${ token }`,
+    },
+  })
+    .then(handleResponse)
+}
 
 
 
 export function likeCard({token, ...body}) {
-  console.log(token, body)
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
     headers: {

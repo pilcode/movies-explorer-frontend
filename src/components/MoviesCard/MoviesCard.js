@@ -8,7 +8,7 @@ import './MoviesCard.css';
 function Card({card, onAddFavoriteCard, onDeleteFavoriteCard}) {
   const { pathname }= useLocation();
   const favoriteCards = React.useContext(FavoriteCardsContext);
-  const hasInFavoriteCards = !!favoriteCards.find((c) => c.id === card.id)
+  const hasInFavoriteCards = !!favoriteCards.find((c) => c.movieId === card.movieId)
 
   function handleToggleFavoriteCard() {
     if(!hasInFavoriteCards) {
@@ -43,12 +43,12 @@ function Card({card, onAddFavoriteCard, onDeleteFavoriteCard}) {
     )
   }
 
-  const imageMovie = card.image ? 'https://api.nomoreparties.co' + card.image.formats.thumbnail.url : defaultMovieImage;
+  const imageMovie = card.image ? card.image : defaultMovieImage;
 
   return (
     <article className="element">
       <div className="element__wrapper">
-        <a className="element__link-image" href={card.trailerLink} target="_blank" rel="noreferrer">
+        <a className="element__link-image" href={card.trailer} target="_blank" rel="noreferrer">
           <img className="element__image" alt={card.nameRU} src={imageMovie} />
         </a>
       </div>

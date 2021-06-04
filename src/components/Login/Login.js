@@ -9,6 +9,18 @@ import './Login.css';
 function Login({ onLogin }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [allValid, setAllValid] = React.useState({email: false, password: false});
+
+  function handleValidity(target, value) {
+    const valid = {
+      ...allValid,
+      [target]: value
+    }
+    setAllValid(valid)
+  }
+
+  const isValid = Object.values(allValid).every(el => el)
+
 
   function handleEmailChange(value) {
     setEmail(value);
@@ -22,11 +34,6 @@ function Login({ onLogin }) {
   function handleSubmit(e) {
     e.preventDefault();
     onLogin({ email, password });
-  }
-
-  function handleValidity(value) {
-    console.log('Валидация', value)
-
   }
 
   return (
@@ -45,7 +52,7 @@ function Login({ onLogin }) {
             maxLength: '20',
             required: true
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('email', value) }
           disabled={ false }
           value={email}
           customErrorMessage="Неверный формат email"
@@ -62,13 +69,13 @@ function Login({ onLogin }) {
             maxLength: '20',
             required: true
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('password', value) }
           disabled={ false }
           value={password}
           customErrorMessage="Минимально допустимое количество символов: 8"
         />
 
-        <button type="submit" className="authorization__button">Войти</button>
+        <button type="submit" className="authorization__button" disabled={!isValid}>Войти</button>
         <p className="authorization__question">Ещё не зарегистрированы? <Link className="authorization__question-link" to="/signup">Регистрация</Link></p>
       </form>
 

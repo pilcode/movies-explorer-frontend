@@ -1,12 +1,28 @@
 import React from 'react';
 import Input from '../Input/Input';
-// import { Link } from "react-router-dom";
+import {CurrentUserContext} from '../../contexts/currentUserContext';
+
+
 import './Profile.css';
 
-function Profile({ onLogin, onSignout }) {
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
+function Profile({ onSignout, onUpdateUser }) {
+
+  const currentUser = React.useContext(CurrentUserContext);
+  const [name, setName] = React.useState(currentUser.name);
+  const [email, setEmail] = React.useState(currentUser.email);
   const [editMode, setEditMode] = React.useState(false);
+  const [allValid, setAllValid] = React.useState({});
+
+  function handleValidity(target, value) {
+    const valid = {
+      ...allValid,
+      [target]: value
+    }
+    setAllValid(valid)
+  }
+
+  const isValid = Object.values(allValid).every(el => el)
+
 
   function handleNameChange(value) {
     setName(value);
@@ -19,13 +35,9 @@ function Profile({ onLogin, onSignout }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onLogin({ name, email });
+    onUpdateUser({ name, email })
+    setEditMode(false)
   }
-
-  function handleValidity(value) {
-    console.log('Валидация', value)
-  }
-
 
   function handleEditProfile() {
     setTimeout(() => {
@@ -35,35 +47,37 @@ function Profile({ onLogin, onSignout }) {
 
   const toggleButtonElement = !editMode
     ? (<button type="button" className="profile__button" onClick={handleEditProfile}>Редактировать</button>)
-    : (<button type="submit" className="profile__button">Сохранить</button>)
+    : (<button type="submit" className="profile__button" disabled={!isValid}>Сохранить</button>)
+    // : (<button type="submit" className={"profile__button" + classInvalid}>Сохранить</button>)
 
 
   return (
     <div className="profile">
-      {/* <h3 className="profile__title">Привет, {name}!</h3> */}
-      <h1 className="profile__title">Привет, Виталий!</h1>
+      <h3 className="profile__title">Привет, {currentUser.name}!</h3>
+      {/* <h1 className="profile__title">Привет, Виталий!</h1> */}
       <form className="profile__form" onSubmit={handleSubmit} noValidate>
         <Input
           inline
           onChange={handleNameChange}
-          className="z__input"
+          className="profile__input"
           label="Имя"
           placeholder="Имя"
           validity={{
             minLength: '2',
             maxLength: '20',
-            required: true
+            required: true,
+            pattern: "^[\\sA-Za-zА-Яа-я-]+$"
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('name', value) }
           disabled={ !editMode }
-          value={email}
-          customErrorMessage="Минимально допустимое количество символов: 2"
+          value={currentUser.name}
+          customErrorMessage="Минимально количество символов: 2"
         />
 
         <Input
           inline
           onChange={handleEmailChange}
-          className="z__input"
+          className="profile__input"
           type="email"
           label="E-mail"
           placeholder="e-mail"
@@ -72,9 +86,9 @@ function Profile({ onLogin, onSignout }) {
             maxLength: '20',
             required: true
           }}
-          onValidate={ handleValidity }
+          onValidate={ (value) => handleValidity('email', value) }
           disabled={ !editMode }
-          value={email}
+          value={currentUser.email}
           customErrorMessage="Неверный формат email"
         />
 

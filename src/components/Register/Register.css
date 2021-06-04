@@ -29,10 +29,6 @@
   position: relative;
 }
 
-/* .register__input {
-  margin: 0 0 30px;
-} */
-
 .register__button {
   width: 100%;
   min-height: 45px;
@@ -52,6 +48,11 @@
 .register__button:hover {
   opacity: 0.85;
   cursor: pointer;
+}
+
+.register__button:disabled {
+  opacity: 0.85;
+  background-color: #A0A0A0;
 }
 
 .register__question {
